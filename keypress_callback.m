@@ -60,8 +60,6 @@ function moveRight(figHandle)
     set(ax, 'XLim', currentXLim + shiftAmount);
 end
 
-
-
 function moveUp(figHandle)
     % Move up function
     ay = findobj(figHandle, 'Type', 'axes');
