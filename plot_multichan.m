@@ -3,7 +3,7 @@
 % 
 % % Create an x-axis variable (assuming you want row numbers as x-axis)
 function plot_multichan( x, y, channelNameArray )
-    nChan = 61;
+    nChan = length(channelNameArray);
     
     normalize = 1; % Normalize data by default
 
@@ -30,9 +30,10 @@ function plot_multichan( x, y, channelNameArray )
     figure
     for chanIdx = 1:nChan
         shift = y_center(chanIdx) + nanmean(y(chanIdx, :), 2);
-
+        
         plot(x, y(chanIdx, :) - shift, 'Color', c_space(chanIdx, :), 'LineWidth', lw);
-
+       
+        
         chanlab_pos(chanIdx) = y_center(chanIdx); % Y-axis positions for labels
         if chanIdx == 1
             hold on;
@@ -43,14 +44,16 @@ function plot_multichan( x, y, channelNameArray )
     % Enhance visibility and customize plot
     set(gca, 'YTick', chanlab_pos, 'YTickLabel', chanlab, 'Clipping', 'on', 'Box', 'off', 'LineWidth', 2);
     ylim([-1 1] * interval * 1.2); % Set Y-axis limits
-    xlim([1,100000])
+    %xlim([1,100000])
+    xlim([0 544])
+
 
     % Set up keyboard event handler
     % After creating the figure
     set(gcf, 'KeyPressFcn', @keypress_callback);
 
     % Add X-axis label and title
-    xlabel('Time');
+    xlabel('Time (s)');
     ylabel('Channel Data');
     title('Multichannel Time-Series Data');
 end

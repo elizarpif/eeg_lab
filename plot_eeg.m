@@ -6,7 +6,37 @@ channelNameArray = data.channelNameArray;
 
 eegDataT = eegData.';
 
-plot_multichan(1:278528,eegDataT(:,:),channelNameArray);
+% 
+% [pxx,w]=periodogram(eegDataT(1,:));
+% 
+% figure;
+% plot(w,10*log10(pxx))
+% 
+
+% for i=16:20
+%     figure;
+%     periodogram(eegDataT(i,:))
+% end
+
+Fs = (50/0.95221)*2;
+total_duration = length(eegDataT(1,:))/Fs;
+Ts = 1/Fs;
+time_vector = 0:Ts:total_duration;
+
+
+choice = questdlg("Which of group of channels do you want to display?", ...
+    'Channel choice', ...
+    "1-20", "21-40", "41-61","1-20");
+if isempty(choice)
+    error('The window was closed beforer it was expected.')
+elseif strcmp(choice,'1-20')
+    plot_multichan(time_vector(1:278528),eegDataT(1:20,:),channelNameArray(1:20));
+elseif strcmp(choice,'21-40')
+    plot_multichan(time_vector(1:278528),eegDataT(21:40,:),channelNameArray(21:40));
+elseif strcmp(choice,'41-61')
+    plot_multichan(time_vector(1:278528),eegDataT(41:61,:),channelNameArray(41:61));
+end
+
 
 % % Assuming your data is in the 'data' variable
 % 
