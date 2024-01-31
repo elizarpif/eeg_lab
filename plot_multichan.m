@@ -1,7 +1,4 @@
-% % Extract the specific column (e.g., column 1)
-% column_to_plot = eegData(1:20, 1);
-% 
-% % Create an x-axis variable (assuming you want row numbers as x-axis)
+
 function plot_multichan( x, y, channelNameArray )
     nChan = length(channelNameArray);
     
@@ -9,7 +6,8 @@ function plot_multichan( x, y, channelNameArray )
 
     % Calculate default interval for channel separation
     %  1.2969e+05
-    interval = nanmean(range(y, 2)) * nChan / 2.5;
+    global amplitude_parameter;
+    interval = nanmean(range(y, 2)) * nChan / amplitude_parameter;
     
     % Create vertical offsets for each channel
     y_center = linspace(-interval, interval, nChan);
@@ -27,7 +25,7 @@ function plot_multichan( x, y, channelNameArray )
     chanlab_pos = []; % Y-axis positions for channel labels
     lw = 1; % Line width
 
-    figure
+    % figure
     for chanIdx = 1:nChan
         shift = y_center(chanIdx) + nanmean(y(chanIdx, :), 2);
         
@@ -45,12 +43,12 @@ function plot_multichan( x, y, channelNameArray )
     set(gca, 'YTick', chanlab_pos, 'YTickLabel', chanlab, 'Clipping', 'on', 'Box', 'off', 'LineWidth', 2);
     ylim([-1 1] * interval * 1.2); % Set Y-axis limits
     %xlim([1,100000])
-    xlim([0 544])
+    xlim([0 20])
 
 
     % Set up keyboard event handler
     % After creating the figure
-    set(gcf, 'KeyPressFcn', @keypress_callback);
+    % set(gcf, 'KeyPressFcn', @keypress_callback);
 
     % Add X-axis label and title
     xlabel('Time (s)');
