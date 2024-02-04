@@ -16,8 +16,8 @@ function plot_multichan( x, y, channelNameArray )
     color_template = [0 100 0;
                        0 200 0;
                        0 300 0;
-                       0 0 100;
-                       0 0 200] * 0.001;
+                       100 0 100;
+                       100 0 200] * 0.001;
     c_space = repmat(color_template, [ceil(nChan/size(color_template, 1)), 1]);
     % 
     % Main plot

@@ -21,11 +21,11 @@ choice = questdlg("Which of group of channels do you want to display?", ...
 if isempty(choice)
     error('The window was closed beforer it was expected.')
 elseif strcmp(choice,'1-30')
-    plot_and_keypress(time_vector(1:278528),eegDataT(1:30,:),channelNameArray(1:30));
+    plot_and_keypress(time_vector(1:length(eegData)),eegDataT(1:30,:),channelNameArray(1:30));
 elseif strcmp(choice,'31-61')
-    plot_and_keypress(time_vector(1:278528),eegDataT(31:61,:),channelNameArray(31:61));
+    plot_and_keypress(time_vector(1:length(eegData)),eegDataT(31:61,:),channelNameArray(31:61));
 elseif strcmp(choice,'all')
-    plot_and_keypress(time_vector(1:278528),eegDataT(1:61,:),channelNameArray(1:61));
+    plot_and_keypress(time_vector(1:length(eegData)),eegDataT(1:61,:),channelNameArray(1:61));
 end
 
 function plot_and_keypress(x,y,channelNameArray)
@@ -36,7 +36,21 @@ function plot_and_keypress(x,y,channelNameArray)
 
     % Define the keypress_callback as a nested function
     function keypress_callback(src, event)
-        switch event.Key
+        if ismember('shift', event.Modifier)
+            switch event.Key
+
+            case {'add', 'equal'}
+                ax = findobj(src, 'Type', 'axes');
+                currentYLim = get(ax, 'YLim');
+                set(ax, 'YLim', currentYLim .* 0.8); % Example: zoom in by 20%
+            
+            case {'subtract', 'hyphen'}
+                ax = findobj(src, 'Type', 'axes');
+                currentYLim = get(ax, 'YLim');
+                set(ax, 'YLim', currentYLim ./ 0.8); % Example: zoom out by 20%
+            end
+        else
+            switch event.Key
             case {'add', 'equal'}
                 global amplitude_parameter;
                 amplitude_parameter = amplitude_parameter * 2;
@@ -91,7 +105,8 @@ function plot_and_keypress(x,y,channelNameArray)
                 set(ax, 'XLim', currentXLim - shiftAmount);
 
             case 'escape'
-            close(src);
+                close(src);
+            end
         end
     end
 
