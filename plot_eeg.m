@@ -48,6 +48,19 @@ function plot_and_keypress(x,y,channelNameArray)
                 ax = findobj(src, 'Type', 'axes');
                 currentYLim = get(ax, 'YLim');
                 set(ax, 'YLim', currentYLim ./ 0.8); % Example: zoom out by 20%
+            
+            case 'rightarrow'
+                % Move right function
+                ax = findobj(src, 'Type', 'axes');
+                currentXLim = get(ax, 'XLim');
+                shiftAmount = diff(currentXLim) * 0.8;  % Example: shift by 80% of the current x-axis range
+                set(ax, 'XLim', currentXLim + shiftAmount);
+
+            case 'leftarrow'
+                ax = findobj(src, 'Type', 'axes');
+                currentXLim = get(ax, 'XLim');
+                shiftAmount = diff(currentXLim) * 0.8;  % Example: shift by 80% of the current x-axis range
+                set(ax, 'XLim', currentXLim - shiftAmount);
             end
         else
             switch event.Key
