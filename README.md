@@ -1,4 +1,5 @@
 ## EEG viewer
+Simple program written on Matlab for visualising EEG recordings.
 
 ### Shortcuts:
 1) `"+"` - increase the amplitude
